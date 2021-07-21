@@ -17,12 +17,19 @@ namespace crudseries
             this.Ano = ano;
         }
 
+        public void Atualiza(Genero genero, string titulo, string descricao, int ano) {
+            this.Genero = genero;
+            this.Titulo = titulo;
+            this.Descricao = descricao;
+            this.Ano = ano;
+        }
+
         public override string ToString()
         {
             StringBuilder retorno = new StringBuilder();
-            retorno.AppendLine("Gênero: " + this.Genero);
-            retorno.AppendLine("Título: " + this.Titulo);
+            retorno.AppendLine($"Título: {this.Titulo} (Id {this.RetornaID()})");
             retorno.AppendLine("Descrição: " + this.Descricao);
+            retorno.AppendLine("Gênero: " + this.Genero);
             retorno.AppendLine("Ano: " + this.Ano);
             return retorno.ToString();
         }
@@ -38,6 +45,11 @@ namespace crudseries
         public void Excluir() 
         {
             this.Excluido = true;
+        }
+
+        public bool Excluida() 
+        {
+            return this.Excluido;
         }
 
     }

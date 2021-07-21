@@ -6,6 +6,8 @@ namespace crudseries
         Aventura = 2,
         Comedia = 3,
         Terror = 4,
-        Musical = 5
+        Ficcao = 5,
+        Fantasia = 6
+
     }
 }

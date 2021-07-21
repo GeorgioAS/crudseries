@@ -2,24 +2,28 @@ using System;
 using crudseries.Interfaces;
 namespace crudseries
 {
-    public class SerieApp
+    public class SerieAplicacao
     {
         private IRepositorio<Serie> _repositorio;
-        public SerieApp(IRepositorio<Serie> repositorio)
+        public SerieAplicacao()
         {
-            _repositorio = repositorio;
+             _repositorio = new SerieRepositorio();
             GeraSerieTeste();
         }
 
         public void Inserir() {
-            Console.WriteLine("Informe o Genero [1] Ação [2] Aventura [3] Comédia [4] Terror [5] Ficção [6] Fantasia");
-            string genero =Console.ReadLine().ToUpper();
+            foreach (int i in Enum.GetValues<Genero>())
+            {
+                Console.WriteLine("[{0}] {1}", i, Enum.GetName(typeof(Genero),i));                
+            }            
+            Console.WriteLine("Digite o genero entre as opções acima.");
+            string genero = Console.ReadLine().ToUpper();
             Console.WriteLine("Informe o Título");
-            string titulo =Console.ReadLine();
+            string titulo = Console.ReadLine();
             Console.WriteLine("Informe a Descrição");
-            string descricao =Console.ReadLine();
+            string descricao = Console.ReadLine();
             Console.WriteLine("Informe o Ano");
-            string ano =Console.ReadLine().ToUpper();
+            string ano = Console.ReadLine().ToUpper();
 
             Serie serie = new Serie(_repositorio.ProximoID(),
                                     (Genero)Enum.Parse(typeof(Genero), genero),
@@ -31,19 +35,23 @@ namespace crudseries
         }
         
         public void Atualizar() {
-            Console.WriteLine("Informe o Id da série:");
+            Console.WriteLine("Digite o Id da série:");
             string id = Console.ReadLine().ToUpper();
             Serie serie = _repositorio.RetornaPorID(int.Parse(id));
             if (serie == null) {
                 Console.WriteLine("Id informado não foi cadastrado:");
             }
-            Console.WriteLine("Informe o Genero [1] Ação [2] Aventura [3] Comédia [4] Terror [5] Ficção [6] Fantasia");
-            string genero =Console.ReadLine().ToUpper();
-            Console.WriteLine("Informe o Título");
+            foreach (int i in Enum.GetValues<Genero>())
+            {
+                Console.WriteLine("[{0}] {1}", i, Enum.GetName(typeof(Genero),i));                
+            }            
+            Console.WriteLine("Digite o genero entre as opções acima.");
+            string genero = Console.ReadLine().ToUpper();
+            Console.WriteLine("Digite o Título");
             string titulo =Console.ReadLine();
-            Console.WriteLine("Informe a Descrição");
+            Console.WriteLine("Digite a Descrição");
             string descricao =Console.ReadLine();
-            Console.WriteLine("Informe o Ano");
+            Console.WriteLine("Digite o Ano");
             string ano =Console.ReadLine().ToUpper();
 
             serie.Atualiza((Genero)Enum.Parse(typeof(Genero), genero),
@@ -54,18 +62,20 @@ namespace crudseries
             _repositorio.Atualiza(serie.RetornaID(),serie);
         }        
         public void Listar() {
-            foreach (var _serie in _repositorio.Lista())
-            {
-                if (!_serie.Excluida()) {
-                    Console.WriteLine(_serie.ToString());
-                    Console.WriteLine();
-                }
+            if (_repositorio.Lista().Count == 0) {
+                Console.WriteLine("Não há séries cadastradas.");
             }
-            
+            else {
+                foreach (var _serie in _repositorio.Lista())
+                {                 
+                  Console.WriteLine("Id:{0} Título:{1} {2}",_serie.RetornaID(),_serie.RetornaTitulo(),(_serie.Excluido() ? "Excluido" : ""));                                          
+                }          
+                Console.WriteLine();
+            }
         }
 
          public void Visualizar() {
-            Console.WriteLine("Informe o Id da série:");
+            Console.WriteLine("Digite o Id da série:");
             string id =Console.ReadLine().ToUpper();
             Serie serie = _repositorio.RetornaPorID(int.Parse(id));
             if (serie != null) {
@@ -76,7 +86,7 @@ namespace crudseries
         }
 
          public void Excluir() {
-            Console.WriteLine("Informe o Id da série a ser excluído:");
+            Console.WriteLine("Digite o Id da série a ser excluído:");
             string id =Console.ReadLine().ToUpper();
             Serie serie = _repositorio.RetornaPorID(int.Parse(id));
             if (serie == null) {

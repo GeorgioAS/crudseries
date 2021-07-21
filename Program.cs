@@ -7,8 +7,8 @@ namespace crudseries
         static void Main(string[] args)
         {
           string opcao = ObterOpcoes();
-          SerieRepositorio _repositorio = new SerieRepositorio();
-          SerieApp _aplicacaoSerie = new SerieApp(_repositorio);
+      
+          SerieAplicacao _aplicacaoSerie = new SerieAplicacao();
 
           while (opcao != "X") {
               switch (opcao) {
@@ -31,12 +31,14 @@ namespace crudseries
                     Console.Clear();
                     break;
                   default: 
-                    break;
+                    throw new ArgumentOutOfRangeException();
               }
+
               opcao = ObterOpcoes();
               if (opcao.Equals("X")) {
                   return;
               }
+
           }
 
         }
